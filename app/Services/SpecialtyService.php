@@ -2,40 +2,43 @@
 
 namespace App\Services;
 
-use App\Models\Doctor;
 use App\Models\Specialty;
+use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\Collection;
 
 class SpecialtyService
 {
-    public function getAll()
+    public function store(array $data): Specialty
+    {
+        return Specialty::create([
+            'title' => $data['title'],
+        ]);
+    }
+
+    public function index(): Collection
     {
         return Specialty::all();
     }
 
-    public function getAllWithDoctorsByCity(int $cityId)
+    public function show(Specialty $specialty): Specialty
     {
-        return Specialty::with(['doctors' => function ($query) use ($cityId) {
-            $query->where('city_id', $cityId)
-                ->where('is_active', true);
-        }])->get();
+        return $specialty;
     }
 
-    public function getWithDoctors($specialty)
+    public function update(Specialty $specialty, array $data): Specialty
     {
-        return $specialty->load('doctors');
+        $specialty->update($data);
+
+        return $specialty->fresh();
     }
 
-    public function getAllWithDoctorsCount()
+    public function destroy(Specialty $specialty): void
     {
-        return Specialty::withCount('doctors')->get();
+        $specialty->delete();
     }
 
-    public function getDoctorsBySpecialtyAndCity(int $specialtyId, int $cityId)
+    public function doctorsBySpecialty(Specialty $specialty): Collection
     {
-        return Doctor::whereHas('specialties', function ($q) use ($specialtyId) {
-            $q->where('specialty_id', $specialtyId);
-        })
-            ->where('city_id', $cityId)
-            ->get();
+        return $specialty->doctors;
     }
 }

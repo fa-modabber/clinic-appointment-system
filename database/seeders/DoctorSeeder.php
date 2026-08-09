@@ -18,7 +18,6 @@ class DoctorSeeder extends Seeder
             Doctor::upsert([
                 "name" => "Dr." . fake()->name(),
                 "is_active" => fake()->boolean(90),
-                "city_id" => City::inRandomOrder()->first()->id,
                 "image" => 'doctor-icon.png'
             ], uniqueBy: [], update: ["name", "is_active", "city_id", "image"]);
         }

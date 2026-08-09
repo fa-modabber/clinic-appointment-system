@@ -16,7 +16,6 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         DB::transaction(function () {
-            $this->call(CitySeeder::class);
             $this->call(SpecialtySeeder::class);
             $this->call(DoctorSeeder::class);
             $this->call(DoctorSpecialtySeeder::class);
