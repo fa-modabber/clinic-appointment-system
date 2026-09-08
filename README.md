@@ -11,62 +11,445 @@
 - Testing
 
 
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Clinic Appointment System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A Laravel-based backend API for managing doctor appointments in a clinic.
 
-## About Laravel
+## 📸 Screenshots
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### Home
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+![Home](screenshots/home.png)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Doctors
 
-## Learning Laravel
+![Doctors](screenshots/doctors.png)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+### Doctor Profile
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+![Doctor Profile](screenshots/doctor-profile.png)
 
-## Laravel Sponsors
+### Appointments
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+![Appointments](screenshots/appointments.png)
 
-### Premium Partners
+> Screenshots will be added here.
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+---
 
-## Contributing
+## 📌 About The Project
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+**Clinic Appointment System** is a backend API for a clinic appointment management system built with Laravel.
 
-## Code of Conduct
+The system allows patients to browse doctors and specialties, view doctor information and available appointment slots, and book and manage their appointments.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+The project also provides role-based access control for different types of users, including patients, doctors, secretaries, clinic managers, and administrators.
 
-## Security Vulnerabilities
+---
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## ✨ Features
 
-## License
+### Authentication
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+- Patient authentication using OTP
+- Staff authentication using mobile number and password
+- OTP verification
+- Password reset using OTP
+- Token-based authentication with Laravel Sanctum
+- Logout
+
+### Patients
+
+- Browse medical specialties
+- Browse doctors
+- View doctor profiles
+- View available appointment slots
+- Book appointments
+- View personal appointments
+- Cancel appointments
+
+### Doctors
+
+- Manage doctor profile
+- Manage specialties
+- Manage working schedules
+- View appointments
+
+### Clinic Management
+
+- Manage doctors
+- Manage specialties
+- Manage schedules
+- Manage appointments
+
+### Authorization
+
+- Role-based access control
+- Permission-based authorization
+- Different roles for:
+  - Patient
+  - Doctor
+  - Secretary
+  - Clinic Manager
+  - Super Admin
+
+---
+
+## 🛠 Tech Stack
+
+- **PHP**
+- **Laravel**
+- **MySQL**
+- **Laravel Sanctum**
+- **Spatie Laravel Permission**
+- **RESTful API**
+- **Composer**
+- **Git**
+- **Docker & Docker Compose**
+
+---
+
+## 📋 Requirements
+
+Make sure the following are installed on your system:
+
+- PHP >= 8.x
+- Composer
+- MySQL
+- Git
+- Docker & Docker Compose *(optional)*
+
+---
+
+## 🚀 Installation
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/your-username/clinic-appointment-system.git
+```
+
+### 2. Navigate to the project directory
+
+```bash
+cd clinic-appointment-system
+```
+
+### 3. Install PHP dependencies
+
+```bash
+composer install
+```
+
+### 4. Create the environment file
+
+```bash
+cp .env.example .env
+```
+
+### 5. Generate the application key
+
+```bash
+php artisan key:generate
+```
+
+---
+
+## ⚙️ Environment Configuration
+
+Copy the example environment file:
+
+```bash
+cp .env.example .env
+```
+
+Then configure the required environment variables in `.env`.
+
+Example:
+
+```env
+APP_NAME="Clinic Appointment System"
+APP_ENV=local
+APP_KEY=
+APP_DEBUG=true
+APP_URL=http://localhost
+
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=clinic
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+> Make sure the database credentials match your local MySQL configuration.
+
+---
+
+## 🗄️ Database Setup
+
+Create a MySQL database:
+
+```sql
+CREATE DATABASE clinic;
+```
+
+Then update the database configuration in your `.env` file.
+
+Run the database migrations:
+
+```bash
+php artisan migrate
+```
+
+---
+
+## 🌱 Database Seeding
+
+To run the database seeders:
+
+```bash
+php artisan db:seed
+```
+
+Or migrate and seed the database in one command:
+
+```bash
+php artisan migrate --seed
+```
+
+To completely reset the database and run all migrations and seeders again:
+
+```bash
+php artisan migrate:fresh --seed
+```
+
+---
+
+## 🔐 Authentication
+
+The API uses **Laravel Sanctum** for token-based authentication.
+
+### Patient Authentication
+
+Patients authenticate using OTP:
+
+```text
+Mobile Number
+      ↓
+Request OTP
+      ↓
+Verify OTP
+      ↓
+Authentication Token
+      ↓
+Authenticated Patient
+```
+
+### Staff Authentication
+
+Staff members authenticate using their mobile number and password:
+
+```text
+Mobile Number + Password
+          ↓
+      Authentication
+          ↓
+   Authentication Token
+```
+
+---
+
+## 📡 API Documentation
+
+The project provides a RESTful API.
+
+### Authentication
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/auth/request-otp` | Request OTP |
+| POST | `/api/auth/verify-otp` | Verify OTP |
+| POST | `/api/auth/login` | Login |
+| POST | `/api/auth/logout` | Logout |
+
+### Specialties
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/specialties` | Get all specialties |
+| GET | `/api/specialties/{id}` | Get specialty details |
+
+### Doctors
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/doctors` | Get all doctors |
+| GET | `/api/doctors/{id}` | Get doctor details |
+
+### Appointments
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/appointments` | Get user appointments |
+| POST | `/api/appointments` | Book an appointment |
+| GET | `/api/appointments/{id}` | Get appointment details |
+| DELETE | `/api/appointments/{id}` | Cancel an appointment |
+
+> API endpoints may change as the project evolves.
+
+### Postman Collection
+
+The Postman collection is available in:
+
+```text
+/docs/postman/clinic-appointment-system.json
+```
+
+---
+
+## 📁 Project Structure
+
+The project follows Laravel's standard structure with business logic separated into dedicated layers.
+
+```text
+app/
+├── Http/
+│   ├── Controllers/
+│   ├── Requests/
+│   └── Resources/
+│
+├── Models/
+├── Services/
+├── Repositories/
+├── Policies/
+└── ...
+
+database/
+├── factories/
+├── migrations/
+└── seeders/
+
+routes/
+├── api.php
+└── web.php
+
+tests/
+├── Feature/
+└── Unit/
+```
+
+### Main Layers
+
+```text
+Controller
+    ↓
+Service
+    ↓
+Repository
+    ↓
+Eloquent / Database
+```
+
+- **Controllers** — Handle HTTP requests and responses.
+- **Requests** — Handle request validation.
+- **Services** — Contain business logic.
+- **Repositories** — Handle data access logic.
+- **Models** — Represent database entities.
+- **Resources** — Transform models into API responses.
+- **Policies** — Handle authorization rules.
+
+---
+
+## 🧪 Testing
+
+Run the test suite using:
+
+```bash
+php artisan test
+```
+
+Or:
+
+```bash
+vendor/bin/phpunit
+```
+
+---
+
+## 🐳 Docker
+
+The project can also be run using Docker.
+
+Build and start the containers:
+
+```bash
+docker compose up -d --build
+```
+
+Check running containers:
+
+```bash
+docker compose ps
+```
+
+Stop the containers:
+
+```bash
+docker compose down
+```
+
+---
+
+## ▶️ Running the Application
+
+For local development without Docker:
+
+```bash
+php artisan serve
+```
+
+The application will be available at:
+
+```text
+http://localhost:8000
+```
+
+---
+
+## 🔒 Security
+
+- Laravel Sanctum for API authentication
+- Role-based access control
+- Permission-based authorization
+- Request validation
+- Password hashing
+- Protected API routes
+- Authorization policies
+
+---
+
+## 🗺️ Future Improvements
+
+- Online payment integration
+- SMS provider integration
+- Email notifications
+- Redis for caching and queues
+- Appointment reminders
+- Improved doctor availability management
+- Swagger / OpenAPI documentation
+- CI/CD pipeline
+- Production-ready Docker configuration
+
+---
+
+## 👩‍💻 Author
+
+- GitHub: https://github.com/fa-modabber
+- LinkedIn: https://linkedin.com/in/your-profile
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License.
