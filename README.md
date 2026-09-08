@@ -1,4 +1,4 @@
-- Project overview
+
 - Features
 - Tech stack
 - Architecture
@@ -13,37 +13,25 @@
 
 # Clinic Appointment System
 
-A Laravel-based backend API for managing doctor appointments in a clinic.
 
-## 📸 Screenshots
-
-### Home
-
-![Home](screenshots/home.png)
-
-### Doctors
-
-![Doctors](screenshots/doctors.png)
-
-### Doctor Profile
-
-![Doctor Profile](screenshots/doctor-profile.png)
-
-### Appointments
-
-![Appointments](screenshots/appointments.png)
-
-> Screenshots will be added here.
-
----
-
-## 📌 About The Project
-
-**Clinic Appointment System** is a backend API for a clinic appointment management system built with Laravel.
+**Clinic Appointment System** is a Laravel-based backend API for a clinic appointment management system built with Laravel.
 
 The system allows patients to browse doctors and specialties, view doctor information and available appointment slots, and book and manage their appointments.
 
 The project also provides role-based access control for different types of users, including patients, doctors, secretaries, clinic managers, and administrators.
+
+---
+## 🛠 Tech Stack
+
+- **PHP**
+- **Laravel**
+- **MySQL**
+- **Laravel Sanctum**
+- **Spatie Laravel Permission**
+- **RESTful API**
+- **Composer**
+- **Git**
+- **Docker & Docker Compose**
 
 ---
 
@@ -92,20 +80,6 @@ The project also provides role-based access control for different types of users
   - Secretary
   - Clinic Manager
   - Super Admin
-
----
-
-## 🛠 Tech Stack
-
-- **PHP**
-- **Laravel**
-- **MySQL**
-- **Laravel Sanctum**
-- **Spatie Laravel Permission**
-- **RESTful API**
-- **Composer**
-- **Git**
-- **Docker & Docker Compose**
 
 ---
 
@@ -305,60 +279,6 @@ The Postman collection is available in:
 ```text
 /docs/postman/clinic-appointment-system.json
 ```
-
----
-
-## 📁 Project Structure
-
-The project follows Laravel's standard structure with business logic separated into dedicated layers.
-
-```text
-app/
-├── Http/
-│   ├── Controllers/
-│   ├── Requests/
-│   └── Resources/
-│
-├── Models/
-├── Services/
-├── Repositories/
-├── Policies/
-└── ...
-
-database/
-├── factories/
-├── migrations/
-└── seeders/
-
-routes/
-├── api.php
-└── web.php
-
-tests/
-├── Feature/
-└── Unit/
-```
-
-### Main Layers
-
-```text
-Controller
-    ↓
-Service
-    ↓
-Repository
-    ↓
-Eloquent / Database
-```
-
-- **Controllers** — Handle HTTP requests and responses.
-- **Requests** — Handle request validation.
-- **Services** — Contain business logic.
-- **Repositories** — Handle data access logic.
-- **Models** — Represent database entities.
-- **Resources** — Transform models into API responses.
-- **Policies** — Handle authorization rules.
-
 ---
 
 ## 🧪 Testing
@@ -431,25 +351,10 @@ http://localhost:8000
 
 ## 🗺️ Future Improvements
 
-- Online payment integration
 - SMS provider integration
-- Email notifications
 - Redis for caching and queues
 - Appointment reminders
 - Improved doctor availability management
 - Swagger / OpenAPI documentation
 - CI/CD pipeline
 - Production-ready Docker configuration
-
----
-
-## 👩‍💻 Author
-
-- GitHub: https://github.com/fa-modabber
-- LinkedIn: https://linkedin.com/in/your-profile
-
----
-
-## 📄 License
-
-This project is licensed under the MIT License.
