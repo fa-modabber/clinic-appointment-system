@@ -1,24 +1,9 @@
-
-- Features
-- Tech stack
-- Architecture
-- Database structure
-- Authentication
-- API documentation
-- Installation
-- Environment setup
-- Screenshots
-- Testing
-
-
 # Clinic Appointment System
 
 
-**Clinic Appointment System** is a Laravel-based backend API for a clinic appointment management system built with Laravel.
+This is a Laravel-based backend API for a clinic appointment management system, primarily designed to support clinic staff in managing doctors’ schedules and patient appointments.
 
-The system allows patients to browse doctors and specialties, view doctor information and available appointment slots, and book and manage their appointments.
-
-The project also provides role-based access control for different types of users, including patients, doctors, secretaries, clinic managers, and administrators.
+The system provides role-specific access for staff, doctors, and patients, allowing each user type to access the information and functionality relevant to their role such as their profiles and related appointments.
 
 ---
 ## 🛠 Tech Stack
@@ -40,35 +25,11 @@ The project also provides role-based access control for different types of users
 ### Authentication
 
 - Patient authentication using OTP
-- Staff authentication using mobile number and password
+- Staff and doctor authentication using mobile number and password
 - OTP verification
 - Password reset using OTP
 - Token-based authentication with Laravel Sanctum
 - Logout
-
-### Patients
-
-- Browse medical specialties
-- Browse doctors
-- View doctor profiles
-- View available appointment slots
-- Book appointments
-- View personal appointments
-- Cancel appointments
-
-### Doctors
-
-- Manage doctor profile
-- Manage specialties
-- Manage working schedules
-- View appointments
-
-### Clinic Management
-
-- Manage doctors
-- Manage specialties
-- Manage schedules
-- Manage appointments
 
 ### Authorization
 
@@ -77,9 +38,19 @@ The project also provides role-based access control for different types of users
 - Different roles for:
   - Patient
   - Doctor
-  - Secretary
-  - Clinic Manager
-  - Super Admin
+  - Clinic Staff
+ 
+### Clinic Staff
+
+- Manage clinic, doctors, patients, specialties, schedules, schedule exceptions and appointments
+
+### Patients
+
+- View their profile, appointments and appointment details including doctor information
+
+### Doctors
+
+- View their profile, working schedule, appointments and patients’ records
 
 ---
 
@@ -87,11 +58,8 @@ The project also provides role-based access control for different types of users
 
 Make sure the following are installed on your system:
 
-- PHP >= 8.x
-- Composer
-- MySQL
-- Git
-- Docker & Docker Compose *(optional)*
+- Docker
+- Docker Compose
 
 ---
 
@@ -100,7 +68,7 @@ Make sure the following are installed on your system:
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/your-username/clinic-appointment-system.git
+git clone https://github.com/fa-modabber/clinic-appointment-system.git
 ```
 
 ### 2. Navigate to the project directory
@@ -109,95 +77,103 @@ git clone https://github.com/your-username/clinic-appointment-system.git
 cd clinic-appointment-system
 ```
 
-### 3. Install PHP dependencies
-
-```bash
-composer install
-```
-
-### 4. Create the environment file
+### 3. Create the environment file
 
 ```bash
 cp .env.example .env
+```
+Update some configuration in `.env`:
+
+```env
+APP_URL=http://localhost:8000
+DB_CONNECTION=mysql
+DB_HOST=db
+DB_PORT=3306
+DB_DATABASE=clinic
+DB_USERNAME=clinic
+DB_PASSWORD=clinic
+```
+
+### 4. Build and start the containers
+
+```bash
+docker compose up -d --build
 ```
 
 ### 5. Generate the application key
-
 ```bash
-php artisan key:generate
+docker compose exec app php artisan key:generate
 ```
 
+### 5. Run database migrations and seeders
+
+```bash
+docker compose exec app php artisan migrate --seed
+```
+
+### 5. Access the application
+
+The following diagram provides a visual overview of the application services and their corresponding access URLs.
+```text
+Browser
+   │
+   ├── :8000 → Laravel Container
+   │
+   └── :8080 → phpMyAdmin Container
+                    │
+                    ▼
+               MySQL Container
+```
+
+The API will be available at:
+
+```text
+http://localhost:8000
+```
+
+phpMyAdmin will be available at:
+
+```text
+http://localhost:8080
+```
+
+
+
+
+### 6. Stop the containers
+
+```bash
+docker compose down
+```
+
+To remove the database volume as well:
+
+```bash
+docker compose down -v
+```
+
+## 📦 Postman Collection
+
+The Postman collection is available in:
+
+```text
+/docs/postman/clinic-appointment-system.json
+```
 ---
 
-## ⚙️ Environment Configuration
+## 🧪 Testing
 
-Copy the example environment file:
-
-```bash
-cp .env.example .env
-```
-
-Then configure the required environment variables in `.env`.
-
-Example:
-
-```env
-APP_NAME="Clinic Appointment System"
-APP_ENV=local
-APP_KEY=
-APP_DEBUG=true
-APP_URL=http://localhost
-
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=clinic
-DB_USERNAME=root
-DB_PASSWORD=
-```
-
-> Make sure the database credentials match your local MySQL configuration.
-
----
-
-## 🗄️ Database Setup
-
-Create a MySQL database:
-
-```sql
-CREATE DATABASE clinic;
-```
-
-Then update the database configuration in your `.env` file.
-
-Run the database migrations:
+Run the test suite using:
 
 ```bash
-php artisan migrate
+php artisan test
 ```
 
----
-
-## 🌱 Database Seeding
-
-To run the database seeders:
+Or:
 
 ```bash
-php artisan db:seed
+vendor/bin/phpunit
 ```
-
-Or migrate and seed the database in one command:
-
-```bash
-php artisan migrate --seed
-```
-
-To completely reset the database and run all migrations and seeders again:
-
-```bash
-php artisan migrate:fresh --seed
-```
-
 ---
 
 ## 🔐 Authentication
@@ -220,9 +196,9 @@ Authentication Token
 Authenticated Patient
 ```
 
-### Staff Authentication
+### Clinic Staff and Doctor Authentication
 
-Staff members authenticate using their mobile number and password:
+Staff members and doctors authenticate using their mobile number and password:
 
 ```text
 Mobile Number + Password
@@ -231,110 +207,6 @@ Mobile Number + Password
           ↓
    Authentication Token
 ```
-
----
-
-## 📡 API Documentation
-
-The project provides a RESTful API.
-
-### Authentication
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/auth/request-otp` | Request OTP |
-| POST | `/api/auth/verify-otp` | Verify OTP |
-| POST | `/api/auth/login` | Login |
-| POST | `/api/auth/logout` | Logout |
-
-### Specialties
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/specialties` | Get all specialties |
-| GET | `/api/specialties/{id}` | Get specialty details |
-
-### Doctors
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/doctors` | Get all doctors |
-| GET | `/api/doctors/{id}` | Get doctor details |
-
-### Appointments
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/appointments` | Get user appointments |
-| POST | `/api/appointments` | Book an appointment |
-| GET | `/api/appointments/{id}` | Get appointment details |
-| DELETE | `/api/appointments/{id}` | Cancel an appointment |
-
-> API endpoints may change as the project evolves.
-
-### Postman Collection
-
-The Postman collection is available in:
-
-```text
-/docs/postman/clinic-appointment-system.json
-```
----
-
-## 🧪 Testing
-
-Run the test suite using:
-
-```bash
-php artisan test
-```
-
-Or:
-
-```bash
-vendor/bin/phpunit
-```
-
----
-
-## 🐳 Docker
-
-The project can also be run using Docker.
-
-Build and start the containers:
-
-```bash
-docker compose up -d --build
-```
-
-Check running containers:
-
-```bash
-docker compose ps
-```
-
-Stop the containers:
-
-```bash
-docker compose down
-```
-
----
-
-## ▶️ Running the Application
-
-For local development without Docker:
-
-```bash
-php artisan serve
-```
-
-The application will be available at:
-
-```text
-http://localhost:8000
-```
-
 ---
 
 ## 🔒 Security
@@ -346,7 +218,6 @@ http://localhost:8000
 - Password hashing
 - Protected API routes
 - Authorization policies
-
 ---
 
 ## 🗺️ Future Improvements
@@ -354,7 +225,6 @@ http://localhost:8000
 - SMS provider integration
 - Redis for caching and queues
 - Appointment reminders
-- Improved doctor availability management
 - Swagger / OpenAPI documentation
 - CI/CD pipeline
 - Production-ready Docker configuration
