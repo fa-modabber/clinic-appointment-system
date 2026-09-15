@@ -23,6 +23,10 @@ class DoctorScheduleService
         $doctor = Doctor::findOrFail($data['doctor_id']);
         $slotDuration = $doctor->visit_duration;
         $this->availabilityService->validateTimeRange(
+            $data['start_time'],
+            $data['end_time']
+        );
+        $this->availabilityService->divisibleBySlotDuration(
             $slotDuration,
             $data['start_time'],
             $data['end_time']
@@ -93,9 +97,13 @@ class DoctorScheduleService
 
             $slotDuration = $doctor->visit_duration;
             $this->availabilityService->validateTimeRange(
-                $slotDuration,
                 $schedule->start_time,
                 $schedule->end_time
+            );
+            $this->availabilityService->divisibleBySlotDuration(
+                $slotDuration,
+                $data['start_time'],
+                $data['end_time']
             );
 
             $appointmentOutsideNewRange = (clone $appointmentsQuery)

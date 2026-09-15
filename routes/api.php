@@ -9,10 +9,11 @@ use App\Http\Controllers\Api\V1\{
     ClinicController as V1ClinicController,
     SpecialtyController as V1SpecialtyController,
     DoctorController as V1DoctorController,
-    ScheduleController as V1ScheduleController,
+    DoctorScheduleController as V1ScheduleController,
     PatientController as V1PatientController,
     AppointmentController as V1AppointmentController,
-    AvailabilityController as V1AvailabilityController
+    AvailabilityController as V1AvailabilityController,
+    DoctorScheduleExceptionController as V1DoctorScheduleExceptionController
 };
 
 /*
@@ -399,7 +400,40 @@ Route::prefix('v1')->group(function () {
 | Schedule Exception Routes
 |--------------------------------------------------------------------------
 */
+Route::prefix('doctor-schedule-exceptions')
+    ->as('doctor-schedule-exceptions.')
+    ->controller(V1DoctorScheduleExceptionController::class)
+    ->middleware('auth:sanctum')
+    ->group(function () {
 
+        Route::get('/', 'index')
+            ->middleware('permission:doctor-schedule-exceptions.view')
+            ->name('index');
+
+        Route::get('/{exception}', 'show')
+            ->middleware('permission:doctor-schedule-exceptions.view')
+            ->name('show');
+
+        Route::post('/', 'store')
+            ->middleware('permission:doctor-schedule-exceptions.create')
+            ->name('store');
+
+        Route::patch('/{exception}', 'update')
+            ->middleware('permission:doctor-schedule-exceptions.update')
+            ->name('update');
+
+        Route::delete('/{exception}', 'destroy')
+            ->middleware('permission:doctor-schedule-exceptions.delete')
+            ->name('destroy');
+
+        Route::patch('/{exception}/activate', 'activate')
+            ->middleware('permission:doctor-schedule-exceptions.update')
+            ->name('activate');
+
+        Route::patch('/{exception}/deactivate', 'deactivate')
+            ->middleware('permission:doctor-schedule-exceptions.update')
+            ->name('deactivate');
+    });
 
     /*
 |--------------------------------------------------------------------------

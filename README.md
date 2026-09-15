@@ -1,3 +1,13 @@
+## Run with Docker
+1. Clone repository : git clone ...
+2. cp .env.example .env
+3. docker compose build
+4. docker compose up -d
+5. docker compose exec app composer install
+6. docker compose exec app php artisan migrate
+
+
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">

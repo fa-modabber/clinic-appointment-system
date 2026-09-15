@@ -22,7 +22,8 @@ class AppointmentController extends ApiController
 
     public function store(StoreAppointmentRequest $request)
     {
-        $data = $this->appointmentService->store($request->validated());
+        $data = $this->appointmentService
+            ->store($request->validated());
         return $this->responseSuccess(
             201,
             'created successfully',

@@ -24,6 +24,7 @@ return new class extends Migration
                 'type',
                 array_column(DoctorScheduleExceptionType::cases(), 'value')
             )->index();
+            $table->boolean('is_active')->default(true)->index();
             $table->timestamps();
             $table->index(['doctor_id', 'date']);
         });

@@ -44,8 +44,10 @@ class ClinicController extends ApiController
         );
     }
 
-    public function update(UpdateClinicRequest $request, Clinic $clinic)
-    {
+    public function update(
+        UpdateClinicRequest $request,
+        Clinic $clinic
+    ) {
         $data = $this->clinicService->update($clinic, $request->validated());
         return $this->responseSuccess(
             200,

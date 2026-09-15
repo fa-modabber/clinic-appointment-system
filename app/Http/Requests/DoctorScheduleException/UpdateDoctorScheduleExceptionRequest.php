@@ -1,19 +1,19 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\DoctorScheduleException;
 
-use App\Enums\DoctorScheduleExceptionType;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use App\Enums\DoctorScheduleExceptionType;
 
-class DoctorScheduleExceptionRequest extends FormRequest
+class UpdateDoctorScheduleExceptionRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,12 +24,21 @@ class DoctorScheduleExceptionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'type' => [
+            'date' => [
                 'required',
-                Rule::enum(DoctorScheduleExceptionType::class)
+                'date',
             ],
-            'start_time' => ['nullable', 'date_format:H:i'],
-            'end_time'   => ['nullable', 'date_format:H:i', 'after:start_time'],
+
+            'start_time' => [
+                'required',
+                'date_format:H:i',
+            ],
+
+            'end_time' => [
+                'required',
+                'date_format:H:i',
+                'after:start_time'
+            ]
         ];
     }
 }

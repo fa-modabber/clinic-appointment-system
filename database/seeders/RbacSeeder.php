@@ -47,7 +47,6 @@ class RbacSeeder extends Seeder
             'specialties.update',
             'specialties.delete',
 
-
             // Patients
             'patients.view',
             'patients.create',
@@ -74,7 +73,14 @@ class RbacSeeder extends Seeder
             'schedules.delete',
 
             // Availabilities
-            'availabilities.view'
+            'availabilities.view',
+
+            // Schedule exception
+            'doctor-schedule-exceptions.view',
+            'doctor-schedule-exceptions.create',
+            'doctor-schedule-exceptions.update',
+            'doctor-schedule-exceptions.delete',
+
         ];
 
         foreach ($permissions as $permission) {

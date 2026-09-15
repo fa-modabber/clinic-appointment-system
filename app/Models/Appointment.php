@@ -105,6 +105,13 @@ class Appointment extends Model
         ]);
     }
 
+    public function scopeForDate(
+        Builder $query,
+        string $date
+    ): Builder {
+        return $query->where('date', $date);
+    }
+
     public function scopeWeekday(
         Builder $query,
         Week $day

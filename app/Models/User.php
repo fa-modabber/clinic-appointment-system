@@ -89,7 +89,7 @@ class User extends Authenticatable
 
     public function canLoginWithPassword(): bool
     {
-        return ! $this->isPatient();
+        return ($this->isStaff() || $this->isDoctor());
     }
 
     public function canResetPassword(): bool

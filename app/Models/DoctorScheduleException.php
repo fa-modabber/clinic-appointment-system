@@ -16,6 +16,7 @@ class DoctorScheduleException extends Model
     protected $guarded = [];
 
     protected $casts = [
+        'is_active' => 'boolean',
         'type' => DoctorScheduleExceptionType::class,
         'start_time' => TimeCast::class,
         'end_time' => TimeCast::class,
@@ -33,5 +34,17 @@ class DoctorScheduleException extends Model
         Doctor $doctor
     ): Builder {
         return $query->where('doctor_id', $doctor->id);
+    }
+
+    public function scopeForDate(
+        Builder $query,
+        string $date
+    ): Builder {
+        return $query->where('date', $date);
+    }
+
+    public function scopeActive(Builder $query): Builder
+    {
+        return $query->where('is_active', true);
     }
 }

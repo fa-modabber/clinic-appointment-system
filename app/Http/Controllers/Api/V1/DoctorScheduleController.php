@@ -14,7 +14,7 @@ use App\Services\SlotService;
 use Illuminate\Http\Request;
 
 
-class ScheduleController extends ApiController
+class DoctorScheduleController extends ApiController
 {
     public function __construct(
         protected DoctorScheduleService $scheduleService,

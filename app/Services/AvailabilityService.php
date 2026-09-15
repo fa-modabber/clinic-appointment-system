@@ -14,21 +14,30 @@ use Illuminate\Validation\ValidationException;
 
 class AvailabilityService
 {
+
     public function validateTimeRange(
-        int $slotDuration,
         Carbon $startTime,
         Carbon $endTime
     ): void {
         if ($endTime->lessThanOrEqualTo($startTime)) {
             throw ValidationException::withMessages([
-                'end_time' => ['End time must be after start time.'],
+                'end_time' =>
+                ['End time must be after start time.'],
             ]);
         }
+    }
+
+    public function divisibleBySlotDuration(
+        int $slotDuration,
+        Carbon $startTime,
+        Carbon $endTime
+    ): void {
         $duration = $startTime->diffInMinutes($endTime);
 
         if ($duration % $slotDuration !== 0) {
             throw ValidationException::withMessages([
-                'end_time' => ['Time range must be divisible by visit duration.'],
+                'end_time' =>
+                ['Time range must be divisible by visit duration.'],
             ]);
         }
     }
@@ -103,6 +112,7 @@ class AvailabilityService
     {
         return DoctorScheduleException::query()
             ->forDoctor($doctorId)
+            ->active()
             ->get()
             ->groupBy('date');
     }
