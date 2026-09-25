@@ -25,7 +25,6 @@ class DoctorSpecialtySeeder extends Seeder
 
                 $doctor->specialties()->syncWithoutDetaching($randomSpecialties);
             }
-
         );
     }
 }

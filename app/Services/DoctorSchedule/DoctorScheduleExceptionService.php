@@ -10,12 +10,20 @@ use App\Models\DoctorSchedule;
 use App\Models\DoctorScheduleException;
 use Illuminate\Support\Carbon;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Database\Eloquent\Collection;
+use Exception;
 
 class DoctorScheduleExceptionService
 {
     public function __construct(
         protected AvailabilityService $availabilityService,
     ) {}
+
+    //to be added in future:
+    // bulkCreateExceptions()
+    // type=unavailable : all day or time range 
+    // unavailable all day: start_time = null end_time = null type = unavailable
+
 
     public function store(array $data): DoctorScheduleException
     {
@@ -215,6 +223,10 @@ class DoctorScheduleExceptionService
         Carbon $startTime,
         Carbon $endTime
     ): void {
+        // Appointment start < Exception end
+        //     AND
+        // Appointment end > Exception start
+
         $hasConflict = Appointment::query()
             ->forDoctor($doctor->id)
             ->forDate($date)
@@ -231,14 +243,6 @@ class DoctorScheduleExceptionService
             ]);
         }
     }
-
-    public function index() {}
-
-
-
-    public function destroy(DoctorScheduleException $exception) {}
-
-    public function show(DoctorScheduleException $exception) {}
 
     public function activate(
         DoctorScheduleException $exception
@@ -260,41 +264,33 @@ class DoctorScheduleExceptionService
         return $exception->refresh();
     }
 
-    public function exception()
+    public function index(): Collection
     {
-        // type=unavailable : all day or time range 
-        // unavailable all day: start_time = null end_time = null type = unavailable
-        // type = custom_hours: must have time range
-        // exceptions shouldn't have overlaps
+        return DoctorScheduleException::with(['doctor'])->get();
     }
 
-    private function hasAppointmentsInRange(
-        Doctor $doctor,
-        Carbon $date,
-        Carbon $startTime,
-        Carbon $endTime
-    ): bool {
-        return true;
-        // Appointment start < Exception end
-        //     AND
-        // Appointment end > Exception start
-    }
-
-    private function hasOverlappingExceptions(
+    public function show(
         DoctorScheduleException $exception
-    ): bool {
-        return true;
+    ): DoctorScheduleException {
+        return $exception->load('doctor');
     }
 
-    private function hasConflictingAppointments() {}
-
-    // bulkCreateExceptions()
-
-    // deleteException()
-
-    // findByDate()
-
-    // hasOverlap()
-
-    // generateUnavailableRanges()
+    public function destroy(DoctorScheduleException $exception)
+    {
+        //check for conflicting appointments
+        if (
+            $exception->type === DoctorScheduleExceptionType::CUSTOM_HOURS
+            && $this->validateNoConflictingAppointment(
+                $exception->doctor,
+                $exception->date,
+                $exception->start_time,
+                $exception->end_time
+            )
+        ) {
+            throw new Exception(
+                'The schedule exception cannot be deleted while it has upcoming appointments.'
+            );
+        }
+        $exception->delete();
+    }
 }

@@ -19,7 +19,7 @@ return new class extends Migration
             $table->id();
             $table->ulid('ulid')->unique();
             $table->foreignIdFor(Patient::class, 'patient_id')
-                ->constrained('users')
+                ->constrained('patients')
                 ->onDelete('restrict');
             $table->foreignIdFor(Doctor::class, 'doctor_id')
                 ->constrained()
@@ -34,7 +34,7 @@ return new class extends Migration
             $table->enum('type', ['online', 'in-site']);
             $table->timestamps();
             $table->softDeletes();
-            $table->index(['doctor_id', 'start_datetime']);
+            $table->index(['doctor_id', 'date']);
         });
     }
 

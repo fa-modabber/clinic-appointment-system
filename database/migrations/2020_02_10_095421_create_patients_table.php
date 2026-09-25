@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('patients', function (Blueprint $table) {
             $table->id();
-            $table->ulid('ulid')->unique();
+            $table->ulid('ulid')->unique(); //for security reasons
             $table->foreignId('user_id')
                 ->constrained()
                 ->cascadeOnDelete()

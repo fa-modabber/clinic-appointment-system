@@ -10,47 +10,14 @@ The system provides role-specific access for staff, doctors, and patients, allow
 
 - **PHP**
 - **Laravel**
-- **MySQL**
 - **Laravel Sanctum**
 - **Spatie Laravel Permission**
 - **RESTful API**
+- **MySQL**
+- **Redis** 
 - **Composer**
 - **Git**
 - **Docker & Docker Compose**
-
----
-
-## ✨ Features
-
-### Authentication
-
-- Patient authentication using OTP
-- Staff and doctor authentication using mobile number and password
-- OTP verification
-- Password reset using OTP
-- Token-based authentication with Laravel Sanctum
-- Logout
-
-### Authorization
-
-- Role-based access control
-- Permission-based authorization
-- Different roles for:
-  - Patient
-  - Doctor
-  - Clinic Staff
- 
-### Clinic Staff
-
-- Manage clinic, doctors, patients, specialties, schedules, schedule exceptions and appointments
-
-### Patients
-
-- View their profile, appointments and appointment details including doctor information
-
-### Doctors
-
-- View their profile, working schedule, appointments and patients’ records
 
 ---
 
@@ -92,6 +59,9 @@ DB_PORT=3306
 DB_DATABASE=clinic
 DB_USERNAME=clinic
 DB_PASSWORD=clinic
+QUEUE_CONNECTION=redis
+REDIS_HOST=redis
+REDIS_PORT=6379
 ```
 
 ### 4. Build and start the containers
@@ -105,13 +75,19 @@ docker compose up -d --build
 docker compose exec app php artisan key:generate
 ```
 
-### 5. Run database migrations and seeders
+### 6. Run database migrations and seeders
 
 ```bash
 docker compose exec app php artisan migrate --seed
 ```
 
-### 5. Access the application
+### 7. Run queue worker
+
+```bash
+docker compose exec app php artisan queue:work
+```
+
+### 8. Access the application
 
 The following diagram provides a visual overview of the application services and their corresponding access URLs.
 ```text
@@ -137,9 +113,6 @@ phpMyAdmin will be available at:
 http://localhost:8080
 ```
 
-
-
-
 ### 6. Stop the containers
 
 ```bash
@@ -152,13 +125,6 @@ To remove the database volume as well:
 docker compose down -v
 ```
 
-## 📦 Postman Collection
-
-The Postman collection is available in:
-
-```text
-/docs/postman/clinic-appointment-system.json
-```
 ---
 
 ## 🧪 Testing
@@ -174,6 +140,68 @@ Or:
 ```bash
 vendor/bin/phpunit
 ```
+---
+
+## 📦 Postman Collection
+
+The Postman collection is available in:
+
+```text
+/docs/postman/clinic-appointment-system.json
+```
+---
+
+## ✨ Features
+
+### Authentication
+
+- Patient authentication using OTP
+- Staff and doctor authentication using mobile number and password
+- OTP verification
+- Password reset using OTP
+- Token-based authentication with Laravel Sanctum
+- Logout
+
+### Authorization
+
+- Role-based access control
+- Permission-based authorization
+- Different roles for:
+  - Patient
+  - Doctor
+  - Clinic Staff
+ 
+### Clinic Staff
+
+- Manage clinic, doctors, patients, specialties, schedules, schedule exceptions and appointments
+
+### Patients
+
+- View their profile, appointments and appointment details including doctor information
+
+### Doctors
+
+- View their profile, working schedule, appointments and patients’ records
+
+---
+
+### Database
+
+The main entities in the system are:
+
+* **User** — Authentication and account information
+* **Patient** — Patient information, associated with a User
+* **Doctor** — Doctor information, associated with a User and Clinic
+* **Clinic** — Clinic information
+* **Specialty** — Medical specialties
+* **Schedule** — Doctors' working schedules
+* **Appointment** — Patient appointments
+* **Schedule Exception** — Exceptions to doctors' regular schedules
+
+The following diagram illustrates the main entities and their relationships:
+
+*coming soon*
+
 ---
 
 ## 🔐 Authentication

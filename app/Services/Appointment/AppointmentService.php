@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Enums\AppointmentStatus;
 use App\Enums\Week;
+use App\Events\AppointmentCreated;
 use App\Models\Appointment;
 use App\Models\Doctor;
 use App\Models\Patient;
@@ -34,6 +35,8 @@ class AppointmentService
     {
         //     $appointment->end_datetime =
         // $start->copy()->addMinutes($schedule->visit_duration);
+        $appointment = Appointment::create($data);
+        AppointmentCreated::dispatch($appointment);
     }
 
     public function applyFilters(Builder $query, array $filters): Builder

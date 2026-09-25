@@ -13,11 +13,7 @@ class AppointmentPolicy
      */
     public function viewAny(User $user): bool
     {
-        if ($user->hasRole('staff')) {
-            return true;
-        }
-
-        return false;
+      return $user->isStaff();
     }
 
     /**

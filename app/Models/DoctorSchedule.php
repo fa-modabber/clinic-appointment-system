@@ -4,12 +4,16 @@ namespace App\Models;
 
 use App\Casts\TimeCast;
 use App\Enums\Week;
+use App\Policies\DoctorSchedulePolicy;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Attributes\UsePolicy;
 
+
+#[UsePolicy(DoctorSchedulePolicy::class)]
 class DoctorSchedule extends Model
 {
     use HasFactory, SoftDeletes;
