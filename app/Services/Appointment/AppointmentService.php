@@ -13,31 +13,13 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Database\Eloquent\Collection;
 use Exception;
+use Illuminate\Support\Carbon;
 
 class AppointmentService
 {
-
-// create بررسی تداخل زمان، وجود Slot
-//update اعتبارسنجی قوانین ویرایش
-// cancel بررسی مهلت لغو، وضعیت نوبت
-//     getAvailableSlots()
-
-// generateSlots()
-
-// removeReservedSlots()
-
-// applyExceptions()
-
-// applySchedule()
-
-// filterBookingWindow()
-    public function store(array $data)
-    {
-        //     $appointment->end_datetime =
-        // $start->copy()->addMinutes($schedule->visit_duration);
-        $appointment = Appointment::create($data);
-        AppointmentCreated::dispatch($appointment);
-    }
+    public function __construct(
+        protected AvailabilityService $availabilityService,
+    ) {}
 
     public function applyFilters(Builder $query, array $filters): Builder
     {
@@ -107,19 +89,6 @@ class AppointmentService
         );
     }
 
-
-    public function show(Appointment $appointment): Appointment
-    {
-        return $appointment;
-    }
-
-    public function update(Appointment $appointment, array $data) {}
-
-    public function destroy(Appointment $appointment) {}
-
-    public function cancel(Appointment $appointment) {}
-
-
     public function updateStatus(
         Appointment $appointment,
         string $status
@@ -148,18 +117,86 @@ class AppointmentService
         if ($weekDay) {
             $query->weekday($weekDay);
         }
+
         return $query->exists();
     }
 
+    public function show(Appointment $appointment): Appointment
+    {
+        return $appointment->load(['doctor', 'patient']);
+    }
 
-    // transaction
-    // validation
-    // schedule checks
-    // availability checks
-    // notifications
-    // completeAppointment()
+    // check conflict
+    public function store(array $data)
+    {
+        $doctor = Doctor::findOrFail($data['doctor_id']);
+
+        $date = Carbon::parse($data['date']);
+        $startTime = Carbon::parse(
+            $data['date'] . ' ' . $data['start_time']
+        );
+
+        $slotDuration = $doctor->visit_duration;
+
+        // Check if the selected slot is still available
+        $isAvailable = $this->availabilityService->isSlotAvailable(
+            $doctor,
+            $date,
+            $startTime,
+            $slotDuration
+        );
+
+        if (!$isAvailable) {
+            throw ValidationException::withMessages([
+                'start_time' => ['The selected time slot is no longer available.'],
+            ]);
+        }
+
+        $appointment = Appointment::create([
+            'patient_id' => $data['patient_id'],
+            'doctor_id' => $doctor->id,
+            'date' => $date->toDateString(),
+            'start_time' => $startTime->format('H:i:s'),
+            'type' => $data['type'],
+        ]);
+
+        AppointmentCreated::dispatch($appointment);
+
+        return $appointment;
+    }
+
+    // update validation
+    public function update(Appointment $appointment, array $data) {}
+
+    // check for deadline of canceling
+    //check for status of appointment
+    public function cancel(Appointment $appointment) {}
+
+    public function destroy(Appointment $appointment) {}
+
+
+
+
+
+    // -------------------------
+    // Availability & Scheduling
+    // -------------------------
+
+    // getAvailableSlots()
+    // generateSlots()
+    // removeReservedSlots()
+    // applyExceptions()
+    // applySchedule()
+    // filterBookingWindow()
+
     // checkConflict()
     // isSlotAvailable()
     // lockSlot()
     // calculateEndTime()
+
+    // -------------------------
+    // Appointment Lifecycle
+    // -------------------------
+
+    // completeAppointment()
 }

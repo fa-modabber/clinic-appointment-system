@@ -22,7 +22,11 @@ class UpdateAppointmentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'patient_id' => ['sometimes', 'exists:patients,id'],
+            'doctor_id' => ['sometimes', 'exists:doctors,id'],
+            'date' => ['sometimes', 'date'],
+            'start_time' => ['sometimes', 'date_format:H:i'],
+            'type' => ['sometimes', 'in:online,in-site'],
         ];
     }
 }

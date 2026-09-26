@@ -222,4 +222,13 @@ class AvailabilityService
 
         return $bookedSlots;
     }
+
+    public function isSlotAvailable(
+        $doctor,
+        $date,
+        $startTime,
+        $slotDuration
+    ) {
+        return true;
+    }
 }
