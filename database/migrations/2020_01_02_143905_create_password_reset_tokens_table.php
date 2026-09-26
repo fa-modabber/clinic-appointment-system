@@ -17,6 +17,7 @@ return new class extends Migration
             $table->uuid('token')->unique();
             $table->dateTime('expires_at');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

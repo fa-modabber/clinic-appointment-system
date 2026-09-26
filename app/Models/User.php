@@ -19,6 +19,7 @@ class User extends Authenticatable
     use HasFactory, Notifiable, SoftDeletes, HasApiTokens;
     use HasRoles;
     protected $table = "users";
+    protected $guard_name = 'sanctum';
     /**
      * The attributes that are mass assignable.
      *

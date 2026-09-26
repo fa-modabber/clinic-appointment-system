@@ -25,6 +25,7 @@ return new class extends Migration
             $table->dateTime('expires_at');
             $table->timestamps();
             $table->index(['mobile', 'context']);
+            $table->softDeletes();
         });
     }
 
