@@ -28,6 +28,52 @@ use App\Http\Controllers\Api\V1\{
 
 Route::prefix('v1')->group(function () {
 
+
+    //--------------------------------------------------------------------------
+    // Authentication Routes
+    //--------------------------------------------------------------------------
+
+    Route::prefix('auth')
+        ->as('auth.')
+        ->controller(V1AuthController::class)
+        ->group(function () {
+
+            //staff login
+            Route::post('/login', 'login')->name('login');
+
+            //patient login
+            Route::prefix('login')
+                ->as('login.')
+                ->group(function () {
+                    Route::post('/request-otp', 'requestOtp')
+                        ->middleware('throttle:5,1')
+                        ->name('request-otp');
+
+                    Route::post('/verify-otp', 'verifyOtp')
+                        ->middleware('throttle:5,1')
+                        ->name('verify-otp');
+                });
+
+            //general
+            Route::prefix('password')
+                ->as('password.')
+                ->group(function () {
+
+                    Route::post('/request-otp', 'requestResetOtp')
+                        ->middleware('throttle:5,1')
+                        ->name('request-otp');
+
+                    Route::post('/verify-otp', 'verifyResetOtp')
+                        ->middleware('throttle:5,1')
+                        ->name('verify-otp');
+
+                    Route::post('/reset', 'resetPassword')
+                        ->name('reset');
+                });
+            Route::post('/logout', 'logout')
+                ->name('logout')->middleware('auth:sanctum');
+        });
+
     /*
 |--------------------------------------------------------------------------
 | User Routes
@@ -128,51 +174,6 @@ Route::prefix('v1')->group(function () {
                 ->name('permissions.sync');
         });
 
-    /*
-|--------------------------------------------------------------------------
-| Authentication Routes
-|--------------------------------------------------------------------------
-*/
-    Route::prefix('auth')
-        ->as('auth.')
-        ->controller(V1AuthController::class)
-        ->group(function () {
-
-            //patient login
-            Route::prefix('login')
-                ->as('login.')
-                ->group(function () {
-                    Route::post('/request-otp', 'requestOtp')
-                        ->middleware('throttle:5,1')
-                        ->name('request-otp');
-
-                    Route::post('/verify-otp', 'verifyOtp')
-                        ->middleware('throttle:5,1')
-                        ->name('verify-otp');
-                });
-
-            //staff login
-            Route::post('/login', 'login')->name('login');
-
-            //general
-            Route::prefix('password')
-                ->as('password.')
-                ->group(function () {
-
-                    Route::post('/request-otp', 'requestResetOtp')
-                        ->middleware('throttle:5,1')
-                        ->name('request-otp');
-
-                    Route::post('/verify-otp', 'verifyResetOtp')
-                        ->middleware('throttle:5,1')
-                        ->name('verify-otp');
-
-                    Route::post('/reset', 'resetPassword')
-                        ->name('reset');
-                });
-            Route::post('/logout', 'logout')
-                ->name('logout')->middleware('auth:sanctum');
-        });
 
     /*
 |--------------------------------------------------------------------------
@@ -400,40 +401,40 @@ Route::prefix('v1')->group(function () {
 | Schedule Exception Routes
 |--------------------------------------------------------------------------
 */
-Route::prefix('doctor-schedule-exceptions')
-    ->as('doctor-schedule-exceptions.')
-    ->controller(V1DoctorScheduleExceptionController::class)
-    ->middleware('auth:sanctum')
-    ->group(function () {
+    Route::prefix('doctor-schedule-exceptions')
+        ->as('doctor-schedule-exceptions.')
+        ->controller(V1DoctorScheduleExceptionController::class)
+        ->middleware('auth:sanctum')
+        ->group(function () {
 
-        Route::get('/', 'index')
-            ->middleware('permission:doctor-schedule-exceptions.view')
-            ->name('index');
+            Route::get('/', 'index')
+                ->middleware('permission:doctor-schedule-exceptions.view')
+                ->name('index');
 
-        Route::get('/{exception}', 'show')
-            ->middleware('permission:doctor-schedule-exceptions.view')
-            ->name('show');
+            Route::get('/{exception}', 'show')
+                ->middleware('permission:doctor-schedule-exceptions.view')
+                ->name('show');
 
-        Route::post('/', 'store')
-            ->middleware('permission:doctor-schedule-exceptions.create')
-            ->name('store');
+            Route::post('/', 'store')
+                ->middleware('permission:doctor-schedule-exceptions.create')
+                ->name('store');
 
-        Route::patch('/{exception}', 'update')
-            ->middleware('permission:doctor-schedule-exceptions.update')
-            ->name('update');
+            Route::patch('/{exception}', 'update')
+                ->middleware('permission:doctor-schedule-exceptions.update')
+                ->name('update');
 
-        Route::delete('/{exception}', 'destroy')
-            ->middleware('permission:doctor-schedule-exceptions.delete')
-            ->name('destroy');
+            Route::delete('/{exception}', 'destroy')
+                ->middleware('permission:doctor-schedule-exceptions.delete')
+                ->name('destroy');
 
-        Route::patch('/{exception}/activate', 'activate')
-            ->middleware('permission:doctor-schedule-exceptions.update')
-            ->name('activate');
+            Route::patch('/{exception}/activate', 'activate')
+                ->middleware('permission:doctor-schedule-exceptions.update')
+                ->name('activate');
 
-        Route::patch('/{exception}/deactivate', 'deactivate')
-            ->middleware('permission:doctor-schedule-exceptions.update')
-            ->name('deactivate');
-    });
+            Route::patch('/{exception}/deactivate', 'deactivate')
+                ->middleware('permission:doctor-schedule-exceptions.update')
+                ->name('deactivate');
+        });
 
     /*
 |--------------------------------------------------------------------------

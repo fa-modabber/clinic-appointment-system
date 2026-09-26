@@ -9,8 +9,8 @@ use App\Http\Requests\Auth\ResetPasswordRequest;
 use App\Http\Requests\Auth\UpdatePasswordRequest;
 use App\Http\Requests\Auth\VerifyOtpRequest;
 use App\Http\Resources\UserResource;
-use App\Services\AuthService;
-use App\Services\PasswordService;
+use App\Services\Auth\AuthService;
+use App\Services\Auth\PasswordService;
 use Illuminate\Http\Request;
 
 class AuthController extends ApiController
