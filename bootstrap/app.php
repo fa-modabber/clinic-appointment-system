@@ -6,6 +6,9 @@ use Illuminate\Foundation\Configuration\Middleware;
 use App\Http\Controllers\ApiController;
 use App\Exceptions\ApiExceptionHandler;
 use Illuminate\Http\Request;
+use Spatie\Permission\Middleware\RoleMiddleware;
+use Spatie\Permission\Middleware\PermissionMiddleware;
+use Spatie\Permission\Middleware\RoleOrPermissionMiddleware;
 
 $apiController = new ApiController();
 
@@ -16,6 +19,13 @@ return Application::configure(basePath: dirname(__DIR__))
         commands: __DIR__.'/../routes/console.php',
         health: '/up',
     )
+        ->withMiddleware(function (Middleware $middleware) {
+        $middleware->alias([
+            'role' => RoleMiddleware::class,
+            'permission' => PermissionMiddleware::class,
+            'role_or_permission' => RoleOrPermissionMiddleware::class,
+        ]);
+    })
     ->withMiddleware(function (Middleware $middleware) use ($apiController): void {
         //
     })
