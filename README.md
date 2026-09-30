@@ -125,17 +125,6 @@ docker compose down -v
 
 ## 🟣 Testing (coming soon)
 
-Run the test suite using:
-
-```bash
-php artisan test
-```
-
-Or:
-
-```bash
-vendor/bin/phpunit
-```
 ---
 
 ## 🟣 Postman Collection (coming soon)
