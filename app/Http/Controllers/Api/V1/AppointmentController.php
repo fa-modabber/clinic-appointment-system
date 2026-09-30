@@ -10,7 +10,6 @@ use App\Http\Resources\AppointmentResource;
 use App\Models\Appointment;
 use App\Models\Doctor;
 use App\Models\Patient;
-use App\Services\AppointmentAvailabilityService;
 use App\Services\AppointmentService;
 use Illuminate\Http\Request;
 
