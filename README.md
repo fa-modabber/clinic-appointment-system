@@ -63,7 +63,8 @@ REDIS_PORT=6379
 ### 4. Build and start the containers
 
 ```bash
-docker compose up -d --build
+docker compose build
+docker compose up -d
 ```
 
 ### 5. Generate the application key
