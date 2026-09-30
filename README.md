@@ -127,7 +127,7 @@ docker compose down -v
 
 ---
 
-## 🧪 Testing
+## 🧪 Testing (coming soon)
 
 Run the test suite using:
 
@@ -142,7 +142,7 @@ vendor/bin/phpunit
 ```
 ---
 
-## 📦 Postman Collection
+## 📦 Postman Collection (coming soon)
 
 The Postman collection is available in:
 
