@@ -8,16 +8,12 @@ The system provides role-specific access for staff, doctors, and patients, allow
 ---
 ## 🟣 Tech Stack
 
-- **PHP**
-- **Laravel**
-- **Laravel Sanctum**
-- **Spatie Laravel Permission**
-- **RESTful API**
-- **MySQL**
-- **Redis** 
-- **Composer**
-- **Git**
-- **Docker & Docker Compose**
+- **Backend:** PHP, Laravel
+- **Laravel Packages:** Laravel Sanctum, Spatie Laravel Permission
+- **API:** RESTful API
+- **Database:** MySQL
+- **Caching & Queue:** Redis
+- **Development Environment:** Docker & Docker Compose
 
 ---
 
