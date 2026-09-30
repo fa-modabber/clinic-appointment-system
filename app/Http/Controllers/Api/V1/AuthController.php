@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\ApiController;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Requests\Auth\RequestOtpRequest;
 use App\Http\Requests\Auth\ResetPasswordRequest;
 use App\Http\Requests\Auth\UpdatePasswordRequest;
@@ -19,6 +20,23 @@ class AuthController extends ApiController
         protected AuthService $authService,
         protected PasswordService $passwordService
     ) {}
+
+    public function register(RegisterRequest $request)
+    {
+        $data = $this->authService->register($request->validated());
+
+        $output =
+            [
+                'user' => new UserResource($data['user']),
+                'token' => $data['token']
+            ];
+
+        return $this->responseSuccess(
+            200,
+            'Registered successfully.',
+            $output
+        );
+    }
 
     public function login(LoginRequest $request)
     {

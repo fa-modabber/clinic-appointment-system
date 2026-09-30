@@ -14,6 +14,22 @@ class AuthService
 {
     public function __construct(protected OtpService $otpService) {}
 
+    public function register(array $data): array
+    {
+        //create user
+        $user = User::create($data);
+
+        //assign role
+        $user->assignRole('super-admin');
+        
+        $token = $user->createToken('api')->plainTextToken;
+
+        return [
+            'user'  => $user,
+            'token' => $token,
+        ];
+    }
+
     public function getValidUser(string $mobile): User
     {
         $user = User::where('mobile', $mobile)->first();
@@ -41,7 +57,8 @@ class AuthService
         $user = $this->getValidUser($mobile);
 
         if (!$user->canLoginWithPassword()) {
-            throw new Exception('you cannot login');
+            throw new Exception('you cannot login with password,
+             please use otp login');
         }
 
         if (!Hash::check($password, $user->password)) {

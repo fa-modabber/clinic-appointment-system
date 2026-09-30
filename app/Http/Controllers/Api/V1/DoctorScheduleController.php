@@ -3,14 +3,13 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\ApiController;
-use App\Http\Requests\Schedule\DoctorStoreScheduleRequest;
-use App\Http\Requests\Schedule\DoctorUpdateScheduleRequest;
+use App\Http\Requests\DoctorSchedule\StoreDoctorScheduleRequest;
+use App\Http\Requests\DoctorSchedule\UpdateDoctorScheduleRequest;
 use App\Http\Resources\DoctorScheduleResource;
 use App\Models\Doctor;
 use App\Models\DoctorSchedule;
 use App\Services\AvailabilityService;
 use App\Services\DoctorScheduleService;
-use App\Services\SlotService;
 use Illuminate\Http\Request;
 
 
@@ -21,7 +20,7 @@ class DoctorScheduleController extends ApiController
         protected AvailabilityService $availabilityService
     ) {}
 
-    public function store(DoctorStoreScheduleRequest $request)
+    public function store(StoreDoctorScheduleRequest $request)
     {
         $data = $this->scheduleService->store($request->validated());
         return $this->responseSuccess(
@@ -52,7 +51,7 @@ class DoctorScheduleController extends ApiController
     }
 
     public function update(
-        DoctorUpdateScheduleRequest $request,
+        UpdateDoctorScheduleRequest $request,
         DoctorSchedule $schedule
     ) {
         $data = $this->scheduleService->update(

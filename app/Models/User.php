@@ -55,7 +55,6 @@ class User extends Authenticatable
         ];
     }
 
-
     // roles
     public function doctor()
     {
@@ -82,6 +81,11 @@ class User extends Authenticatable
         return $this->hasRole('staff');
     }
 
+    public function isSuperAdmin(): bool
+    {
+        return $this->hasRole('super-admin');
+    }
+
     // Authentication
     public function canLoginWithOtp(): bool
     {
@@ -90,7 +94,7 @@ class User extends Authenticatable
 
     public function canLoginWithPassword(): bool
     {
-        return ($this->isStaff() || $this->isDoctor());
+        return ($this->isStaff() || $this->isDoctor() || $this->isSuperAdmin());
     }
 
     public function canResetPassword(): bool

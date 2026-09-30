@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Requests\Schedule;
+namespace App\Http\Requests\DoctorSchedule;
 
 use App\Enums\Week;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class DoctorUpdateScheduleRequest extends FormRequest
+class UpdateDoctorScheduleRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

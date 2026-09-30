@@ -1,4 +1,5 @@
 <?php
+namespace App\Notifications\Channels;
 
 class SmsChannel
 {
