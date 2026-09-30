@@ -6,7 +6,7 @@ This is a Laravel-based backend API for a clinic appointment management system, 
 The system provides role-specific access for staff, doctors, and patients, allowing each user type to access the information and functionality relevant to their role such as their profiles and related appointments.
 
 ---
-## 🛠 Tech Stack
+## Tech Stack
 
 - **PHP**
 - **Laravel**
@@ -21,7 +21,7 @@ The system provides role-specific access for staff, doctors, and patients, allow
 
 ---
 
-## 📋 Requirements
+## Requirements
 
 Make sure the following are installed on your system:
 
@@ -30,7 +30,7 @@ Make sure the following are installed on your system:
 
 ---
 
-## 🚀 Installation
+## Installation
 
 ### 1. Clone the repository
 
@@ -127,7 +127,7 @@ docker compose down -v
 
 ---
 
-## 🧪 Testing (coming soon)
+## Testing (coming soon)
 
 Run the test suite using:
 
@@ -142,7 +142,7 @@ vendor/bin/phpunit
 ```
 ---
 
-## 📦 Postman Collection (coming soon)
+## Postman Collection (coming soon)
 
 The Postman collection is available in:
 
@@ -151,7 +151,7 @@ The Postman collection is available in:
 ```
 ---
 
-## ✨ Features
+## Features
 
 ### Authentication
 
@@ -185,7 +185,7 @@ The Postman collection is available in:
 
 ---
 
-### Database
+## Database
 
 The main entities in the system are:
 
@@ -204,7 +204,7 @@ The following diagram illustrates the main entities and their relationships:
 
 ---
 
-## 🔐 Authentication
+## Authentication
 
 The API uses **Laravel Sanctum** for token-based authentication.
 
@@ -237,7 +237,7 @@ Mobile Number + Password
 ```
 ---
 
-## 🔒 Security
+## Security
 
 - Laravel Sanctum for API authentication
 - Role-based access control
@@ -248,7 +248,7 @@ Mobile Number + Password
 - Authorization policies
 ---
 
-## 🗺️ Future Improvements
+## Future Improvements
 
 - SMS provider integration
 - Redis for caching and queues
