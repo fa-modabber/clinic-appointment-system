@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Specialty;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Collection;
+use Exception;
 
 class SpecialtyService
 {
@@ -34,6 +35,11 @@ class SpecialtyService
 
     public function destroy(Specialty $specialty): void
     {
+        if ($specialty->doctors()->exists()) {
+            throw new Exception(
+                'This specialty has associated doctors.'
+            );
+        }
         $specialty->delete();
     }
 

@@ -73,7 +73,7 @@ class UpdateDoctorRequest extends FormRequest
                     'sometimes',
                     'required',
                     'integer',
-                    'between:1,90',
+                    'between:1,365',
                 ],
 
                 'visit_price' => [
@@ -91,6 +91,7 @@ class UpdateDoctorRequest extends FormRequest
                 'specialties.*' => [
                     'integer',
                     Rule::exists('specialties', 'id')
+                        ->whereNull('deleted_at'),
                 ],
             ]
         );

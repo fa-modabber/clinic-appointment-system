@@ -66,7 +66,7 @@ class StoreDoctorRequest extends FormRequest
                 'booking_days_ahead' => [
                     'required',
                     'integer',
-                    'between:1,90',
+                    'between:1,365',
                 ],
 
                 'visit_price' => [
@@ -80,8 +80,10 @@ class StoreDoctorRequest extends FormRequest
                     'min:1'
                 ],
                 'specialties.*' => [
+                    'required',
                     'integer',
                     Rule::exists('specialties', 'id')
+                        ->whereNull('deleted_at'),
                 ],
             ]
         );

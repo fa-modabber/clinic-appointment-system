@@ -56,6 +56,10 @@ class UserService
 */
     public function activate(User $user): User
     {
+        if ($user->trashed()) {
+            throw new \LogicException('A deleted user cannot be activated.');
+        }
+
         $user->update([
             'is_active' => true
         ]);
@@ -65,6 +69,10 @@ class UserService
 
     public function deactivate(User $user): User
     {
+        if ($user->trashed()) {
+            throw new \LogicException('A deleted user cannot be deactivated.');
+        }
+
         $user->update([
             'is_active' => false
         ]);

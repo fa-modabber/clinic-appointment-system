@@ -14,22 +14,6 @@ class AuthService
 {
     public function __construct(protected OtpService $otpService) {}
 
-    public function register(array $data): array
-    {
-        //create user
-        $user = User::create($data);
-
-        //assign role
-        $user->assignRole('super-admin');
-        
-        $token = $user->createToken('api')->plainTextToken;
-
-        return [
-            'user'  => $user,
-            'token' => $token,
-        ];
-    }
-
     public function getValidUser(string $mobile): User
     {
         $user = User::where('mobile', $mobile)->first();

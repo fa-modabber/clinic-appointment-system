@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\AppointmentStatus;
 use App\Models\Doctor;
 use App\Models\Patient;
 use App\Models\User;
@@ -13,7 +14,10 @@ use Illuminate\Support\Facades\DB;
 
 class PatientService
 {
-    public function __construct(protected UserService $userService) {}
+    public function __construct(
+        protected UserService $userService,
+        protected AuthorizationService $authorizationService
+    ) {}
 
     public function store(array $data): Patient
     {
@@ -34,8 +38,7 @@ class PatientService
                 'gender' => $data['gender'],
                 'marital_status' => $data['marital_status']
             ]);
-
-            $user->assignRole('patient');
+            $this->authorizationService->assignRole($user, 'patient');
 
             return $patient->load('user');
         });
@@ -82,15 +85,32 @@ class PatientService
 
     public function destroy(Patient $patient): void
     {
-        if ($patient->appointments()->exists()) {
-            throw new Exception('this patient has some appointments related');
+        $cancelledCutoff = now()->subDays(30);
+
+        $hasBlockingAppointments = $patient->appointments()
+            ->where(function ($query) use ($cancelledCutoff) {
+                $query
+                    ->whereIn('status', [
+                        AppointmentStatus::PENDING->value,
+                        AppointmentStatus::CONFIRMED->value,
+                        AppointmentStatus::COMPLETED->value,
+                    ])
+                    ->orWhere(function ($query) use ($cancelledCutoff) {
+                        $query
+                            ->where('status', AppointmentStatus::CANCELLED->value)
+                            ->where('cancelled_at', '>', $cancelledCutoff);
+                    });
+            })
+            ->exists();
+
+        if ($hasBlockingAppointments) {
+            throw new Exception('this patient has some appointments');
         }
 
         DB::transaction(function () use ($patient) {
             $user = $patient->user;
 
             $patient->delete();
-
             $user->delete();
         });
     }
@@ -98,25 +118,26 @@ class PatientService
     public function doctorSelfPatients(User $user): Collection
     {
         if (!$user->isDoctor()) {
-            throw new Exception('you are not a doctor');
+            throw new Exception('You are not a doctor.');
         }
 
         return Patient::with('user')
-            ->whereHas(
-                'appointments',
-                function ($q) use ($user) {
-                    $q->where('doctor_id', $user->doctor->id);
-                }
-            )->get();
+            ->whereHas('appointments', function ($query) use ($user) {
+                $query
+                    ->where('doctor_id', $user->doctor->id)
+                    ->whereIn('status', AppointmentStatus::doctorPatientStatuses());
+            })
+            ->get();
     }
 
-     public function patientsByDoctor(Doctor $doctor): Collection {
+    public function patientsByDoctor(Doctor $doctor): Collection
+    {
         return Patient::with('user')
-            ->whereHas(
-                'appointments',
-                function ($q) use ($doctor) {
-                    $q->where('doctor_id', $doctor->id);
-                }
-            )->get();
-     }
+            ->whereHas('appointments', function ($query) use ($doctor) {
+                $query
+                    ->where('doctor_id', $doctor->id)
+                    ->whereIn('status', AppointmentStatus::doctorPatientStatuses());
+            })
+            ->get();
+    }
 }

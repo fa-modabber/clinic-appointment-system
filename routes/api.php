@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\V1\{
     UserController as V1UserController,
-    RbacController as V1RbacController,
+    AuthorizationController as V1AuthorizationController,
     AuthController as V1AuthController,
     ProfileController as V1ProfileController,
     ClinicController as V1ClinicController,
@@ -74,11 +74,10 @@ Route::prefix('v1')->group(function () {
                 ->name('logout')->middleware('auth:sanctum');
         });
 
-    /*
-|--------------------------------------------------------------------------
-| User Routes
-|--------------------------------------------------------------------------
-*/
+
+//--------------------------------------------------------------------------
+// User Routes
+//--------------------------------------------------------------------------
 
     Route::prefix('users')
         ->as('users.')
@@ -114,17 +113,15 @@ Route::prefix('v1')->group(function () {
                 ->name('deactivate');
         });
 
+//--------------------------------------------------------------------------
+// Authorization Routes
+//--------------------------------------------------------------------------
 
-    /*
-|--------------------------------------------------------------------------
-| Authorization Routes
-|--------------------------------------------------------------------------
-*/
 
     Route::prefix('authorization')
         ->as('authorization.')
         ->middleware('auth:sanctum')
-        ->controller(V1RbacController::class)
+        ->controller(V1AuthorizationController::class)
         ->group(function () {
 
             Route::prefix('roles')

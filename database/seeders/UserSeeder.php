@@ -14,7 +14,13 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        $superAdmin = User::factory()->create();
+        $superAdmin = User::create([
+            'mobile' => '09123456789',
+            'first_name' => 'Super',
+            'last_name' => 'Admin',
+            'password' => Hash::make('1234'),
+        ]);
+
         $superAdmin->assignRole('super-admin');
 
         $staff = User::factory()->create();

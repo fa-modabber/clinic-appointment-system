@@ -21,23 +21,6 @@ class AuthController extends ApiController
         protected PasswordService $passwordService
     ) {}
 
-    public function register(RegisterRequest $request)
-    {
-        $data = $this->authService->register($request->validated());
-
-        $output =
-            [
-                'user' => new UserResource($data['user']),
-                'token' => $data['token']
-            ];
-
-        return $this->responseSuccess(
-            200,
-            'Registered successfully.',
-            $output
-        );
-    }
-
     public function login(LoginRequest $request)
     {
         $data = $this->authService->login($request->validated());

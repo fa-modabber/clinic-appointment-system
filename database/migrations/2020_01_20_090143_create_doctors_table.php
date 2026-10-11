@@ -17,11 +17,11 @@ return new class extends Migration
             $table->ulid('ulid')->unique();
             $table->foreignId('user_id')
                 ->constrained()
-                ->cascadeOnDelete()
+                ->restrictOnDelete()
                 ->unique();
             $table->foreignId('clinic_id')
                 ->constrained()
-                ->cascadeOnDelete();
+                ->restrictOnDelete();
             $table->string('medical_code')->unique();
             $table->text('bio')->nullable();
             $table->unsignedTinyInteger('experience_years')->nullable();

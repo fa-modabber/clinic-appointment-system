@@ -7,14 +7,16 @@ use App\Http\Requests\RolePermission\PermissionRequest;
 use App\Http\Requests\RolePermission\RoleRequest;
 use App\Http\Requests\RolePermission\SyncPermissionsRequest;
 use App\Models\User;
-use App\Services\RbacService;
+use App\Services\AuthorizationService;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
-class RbacController extends ApiController
+class AuthorizationController extends ApiController
 {
 
-    public function __construct(protected RbacService $rbacService) {}
+    public function __construct(
+        protected AuthorizationService $rbacService
+    ) {}
 
 
     /*

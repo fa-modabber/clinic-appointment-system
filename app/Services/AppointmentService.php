@@ -121,6 +121,17 @@ class AppointmentService
         return $query->exists();
     }
 
+    public function hasBlockingAppointments(Doctor $doctor): bool
+    {
+        return $doctor->appointments()
+            ->whereIn('status', [
+                AppointmentStatus::PENDING->value,
+                AppointmentStatus::CONFIRMED->value,
+                AppointmentStatus::COMPLETED->value,
+            ])
+            ->exists();
+    }
+
     public function show(Appointment $appointment): Appointment
     {
         return $appointment->load(['doctor', 'patient']);

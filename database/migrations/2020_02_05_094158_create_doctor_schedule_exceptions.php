@@ -16,7 +16,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('doctor_id')
                 ->constrained()
-                ->cascadeOnDelete();
+                ->restrictOnDelete();
             $table->date('date')->index();
             $table->time('start_time');
             $table->time('end_time');

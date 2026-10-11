@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Clinic;
 use Illuminate\Database\Eloquent\Collection;
+use Exception;
 
 class ClinicService
 {
@@ -37,6 +38,10 @@ class ClinicService
 
     public function destroy(Clinic $clinic): void
     {
+        if ($clinic->doctors()->exists()) {
+            throw new Exception('This clinic has associated doctors.');
+        }
+
         $clinic->delete();
     }
 }

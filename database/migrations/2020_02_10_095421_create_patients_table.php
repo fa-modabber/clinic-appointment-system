@@ -16,7 +16,7 @@ return new class extends Migration
             $table->ulid('ulid')->unique(); //for security reasons
             $table->foreignId('user_id')
                 ->constrained()
-                ->cascadeOnDelete()
+                ->restrictOnDelete()
                 ->unique();
             $table->date('birth_date');
             $table->enum('gender', ['female', 'male']);

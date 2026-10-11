@@ -12,7 +12,8 @@ class DoctorService
 {
     public function __construct(
         protected UserService $userService,
-        protected AppointmentService $appointmentService
+        protected AppointmentService $appointmentService,
+        protected AuthorizationService $authorizationService
     ) {}
 
     public function store(array $data): Doctor
@@ -40,7 +41,8 @@ class DoctorService
                 'visit_price' => $data['visit_price'],
             ]);
 
-            $user->assignRole('doctor');
+            $this->authorizationService->assignRole($user, 'doctor');
+
 
             $doctor->specialties()->attach($data['specialties']);
 
@@ -123,23 +125,25 @@ class DoctorService
 
     public function destroy(Doctor $doctor): void
     {
-        if ($this->appointmentService->hasUpcomingAppointments($doctor)) {
-            throw new Exception('this doctor has upcoming appointments');
+        if ($this->appointmentService->hasBlockingAppointments($doctor)) {
+            throw new Exception('This doctor has blocking appointments.');
         }
 
-        if ($doctor->schedules()->exists()) {
-            throw new Exception('this doctor has some schedules related');
+        if ($doctor->schedules()->where('is_active', true)->exists()) {
+            throw new Exception('This doctor has active schedules.');
         }
 
-        if ($doctor->scheduleExceptions()->exists()) {
-            throw new Exception('this doctor has some schedule exceptions related');
+        if ($doctor->scheduleExceptions()->whereDate('date', '>=', today())->exists()) {
+            throw new Exception('This doctor has upcoming schedule exceptions.');
         }
 
         DB::transaction(function () use ($doctor) {
             $user = $doctor->user;
 
+            // Remove active specialty associations.
+            $doctor->specialties()->detach();
+            
             $doctor->delete();
-
             $user->delete();
         });
     }

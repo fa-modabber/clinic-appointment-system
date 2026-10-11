@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignIdFor(Doctor::class, 'doctor_id')
                 ->constrained()
-                ->onDelete('cascade');
+                ->restrictOnDelete();
             $table->enum('day_of_week', array_column(Week::cases(), 'value'));
             $table->time('start_time');
             $table->time('end_time');

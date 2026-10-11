@@ -63,6 +63,11 @@ class UserPolicy
         return false;
     }
 
+    public function activate(User $authUser, User $targetUser): bool
+    {
+        return $authUser->id !== $targetUser->id;
+    }
+
     public function deactivate(User $authUser, User $targetUser): bool
     {
         return $authUser->id !== $targetUser->id;

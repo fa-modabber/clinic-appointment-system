@@ -6,7 +6,7 @@ use App\Models\User;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
-class RbacService
+class AuthorizationService
 {
 
     /*

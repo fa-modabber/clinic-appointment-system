@@ -23,7 +23,6 @@ return new class extends Migration
             $table->timestamps();
 
             $table->primary(['doctor_id', 'Specialty_id']);
-            $table->softDeletes();
         });
     }
 
